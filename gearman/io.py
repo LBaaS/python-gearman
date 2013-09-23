@@ -21,10 +21,13 @@ def get_connection_poller():
         - On all other systems: gearman.io._Select: an object that mimics
           select.epoll, but uses select.select
     """
-    if hasattr(select, "epoll"):
-        return select.epoll()
-    else:
-        return _Select()
+    # epoll/poll support disabled due to locking issues in eventlet
+    # (poll/epoll not monkey patched in eventlet)
+    #
+    #if hasattr(select, "epoll"):
+    #    return select.epoll()
+    #else:
+    return _Select()
 
 def _find_bad_connections(connections):
     """
