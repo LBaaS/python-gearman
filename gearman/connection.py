@@ -124,6 +124,9 @@ class GearmanConnection(object):
         try:
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+            # Set a timeout for the initial connection and SSL handshake
+            client_socket.settimeout(30.0)
+
             if self.use_ssl:
                 client_socket = ssl.wrap_socket(client_socket,
                                                 keyfile=self.keyfile,
